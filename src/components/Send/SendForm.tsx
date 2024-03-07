@@ -119,6 +119,9 @@ const SendForm = ({ handleNext, handleUpdateForm, formInputs }: Props) => {
 
   const getAmountHelperText = useMemo(() => {
     const balanceAvailable = `${walletUSDCBalance.toLocaleString()} available`
+    if (walletUSDCBalance === 0) {
+      return 'Insufficient wallet balance, Go to https://faucet.circle.com/ to get USDC'
+    }
     if (amount !== '' && (isNaN(+amount) || +amount <= 0)) {
       return `Enter a valid amount, ${balanceAvailable}`
     }
