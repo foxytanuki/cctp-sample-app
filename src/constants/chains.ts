@@ -92,7 +92,7 @@ const ETH_SEPOLIA: AddEthereumChainParameter = {
     symbol: 'ETH',
     decimals: 18,
   },
-  rpcUrls: ['https://sepolia.infura.io/v3/'],
+  rpcUrls: ['https://rpc.ankr.com/eth_sepolia'],
 }
 
 const AVAX_FUJI: AddEthereumChainParameter = {
@@ -116,7 +116,7 @@ const ARB_SEPOLIA: AddEthereumChainParameter = {
     symbol: 'ETH',
     decimals: 18,
   },
-  rpcUrls: ['https://arb-sepolia.g.alchemy.com/v2/demo'],
+  rpcUrls: ['https://rpc.ankr.com/arbitrum_sepolia'],
 }
 
 interface ChainIdToChainParameters {
