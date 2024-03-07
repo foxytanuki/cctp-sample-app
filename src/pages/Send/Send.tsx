@@ -76,6 +76,12 @@ function Send() {
           across blockchains without the need to be converted into a asset. All
           transfers are permissionless and executed on-chain.
         </p>
+        <div className="mt-2 text-center text-base">
+          <span>Source: </span>
+          <a href="https://github.com/foxytanuki/cctp-sample-app">
+            https://github.com/foxytanuki/cctp-sample-app
+          </a>
+        </div>
 
         <div className="m-24 flex flex-col">
           <SendForm
