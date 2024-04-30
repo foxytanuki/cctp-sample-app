@@ -24,13 +24,13 @@ export const routes: RouteConfig[] = [
     path: '/redeem',
     label: 'Redeem',
     component: Redeem,
-    nav: false,
+    nav: true,
   },
   {
     path: '/transactions',
     label: 'Transactions',
     component: Transactions,
-    nav: false,
+    nav: true,
   },
 ]
 
