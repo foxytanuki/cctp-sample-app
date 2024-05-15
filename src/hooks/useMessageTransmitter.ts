@@ -2,14 +2,21 @@ import { useCallback } from 'react'
 
 import { useWeb3React } from '@web3-react/core'
 
+import {
+  CHAIN_TO_CHAIN_ID,
+  type DestinationDomain,
+  type SupportedChainId,
+} from 'constants/chains'
 import { MessageTransmitter__factory } from 'typechain/index'
-import { getMessageTransmitterContractAddress } from 'utils/addresses'
+import {
+  getMessageTransmitterContractAddress,
+  getTokenMessengerContractAddress,
+} from 'utils/addresses'
 
 import type {
   TransactionResponse,
   Web3Provider,
 } from '@ethersproject/providers'
-import type { SupportedChainId } from 'constants/chains'
 import type { Bytes } from 'ethers'
 
 /**
@@ -21,6 +28,30 @@ const useMessageTransmitter = (chainId: SupportedChainId | undefined) => {
 
   const MESSAGE_TRANSMITTER_CONTRACT_ADDRESS =
     getMessageTransmitterContractAddress(chainId)
+
+  const sendMessage = useCallback(
+    async (destinationDomain: DestinationDomain, message: Bytes) => {
+      if (!library) return
+      const contract = MessageTransmitter__factory.connect(
+        MESSAGE_TRANSMITTER_CONTRACT_ADDRESS,
+        library.getSigner()
+      )
+
+      // Get the recipient address for the destination domain
+      const chainId = CHAIN_TO_CHAIN_ID[destinationDomain]
+      const recipient = getTokenMessengerContractAddress(chainId)
+
+      return await contract
+        .sendMessage(destinationDomain, recipient, message)
+        .then((response: TransactionResponse) => {
+          return response
+        })
+        .catch((error: Error) => {
+          throw new Error(error.message)
+        })
+    },
+    [MESSAGE_TRANSMITTER_CONTRACT_ADDRESS, library]
+  )
 
   /**
    * Returns transaction response from contract call
@@ -48,6 +79,7 @@ const useMessageTransmitter = (chainId: SupportedChainId | undefined) => {
   )
 
   return {
+    sendMessage,
     receiveMessage,
   }
 }
