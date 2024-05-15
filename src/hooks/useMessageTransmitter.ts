@@ -1,10 +1,11 @@
 import { useCallback } from 'react'
 
 import { useWeb3React } from '@web3-react/core'
+import { formatBytes32String, hexZeroPad } from 'ethers/lib/utils'
 
 import {
   CHAIN_TO_CHAIN_ID,
-  type DestinationDomain,
+  DestinationDomain,
   type SupportedChainId,
 } from 'constants/chains'
 import { MessageTransmitter__factory } from 'typechain/index'
@@ -38,11 +39,12 @@ const useMessageTransmitter = (chainId: SupportedChainId | undefined) => {
       )
 
       // Get the recipient address for the destination domain
-      const chainId = CHAIN_TO_CHAIN_ID[destinationDomain]
-      const recipient = getTokenMessengerContractAddress(chainId)
+      const chainId = CHAIN_TO_CHAIN_ID[DestinationDomain[destinationDomain]]
+      const tokenMessengerAddress = getTokenMessengerContractAddress(chainId)
+      const tokenMessengerAddressBytes = hexZeroPad(tokenMessengerAddress, 32)
 
       return await contract
-        .sendMessage(destinationDomain, recipient, message)
+        .sendMessage(destinationDomain, tokenMessengerAddressBytes, message)
         .then((response: TransactionResponse) => {
           return response
         })

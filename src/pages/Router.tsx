@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AppLayout from 'layouts/AppLayout'
 
+import Message from './Message/Message'
 import Redeem from './Redeem/Redeem'
 import Send from './Send/Send'
 import Transactions from './Transactions/Transactions'
@@ -19,6 +20,12 @@ export const routes: RouteConfig[] = [
     label: 'Transfer',
     component: Send,
     nav: true,
+  },
+  {
+    path: '/message',
+    label: 'Message',
+    component: Message,
+    nav: false,
   },
   {
     path: '/redeem',
